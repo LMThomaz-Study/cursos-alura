@@ -52,3 +52,6 @@ def jogar():
     rodada = rodada + 1
 
   print('Fim de jogo!')
+
+if (__name__ == '__main__'):
+  jogar()
