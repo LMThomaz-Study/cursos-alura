@@ -6,9 +6,11 @@ print('Escolha o seu jogo!')
 print('*******************')
 
 print('(1) Forca | (2) Adivinhação')
-jogo = int(input('Informe qual jogo?'))
+jogo = int(input('Informe qual jogo? '))
 
 if jogo == 1:
   print('Jogando forca')
+  forca.jogar()
 elif jogo == 2:
   print('Jogando adivinhação')
+  adivinhacao.jogar()
