@@ -1,6 +1,7 @@
-import { createContext, useState } from 'react';
+import React, { createContext, useState } from 'react';
 
 export const UsuarioContext = createContext();
+UsuarioContext.displayName = 'UserContext';
 
 export const UsuarioProvider = ({ children }) => {
   const [nome, setNome] = useState('');
