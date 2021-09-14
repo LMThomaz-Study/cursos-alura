@@ -6,9 +6,9 @@ import { memo } from 'react';
 import { Container } from './styles';
 
 function Produto({ nome, foto, id, valor, unidade }) {
-  const { carrinho, adicionarProduto } = useCarrinhoContext();
+  const { carrinho, adicionarProduto, removerProduto } = useCarrinhoContext();
 
-  const produtoCarrinho = carrinho.find((item) => item.id === id);
+  const produtoCarrinho = carrinho?.find((item) => item.id === id);
 
   return (
     <Container>
@@ -19,11 +19,13 @@ function Produto({ nome, foto, id, valor, unidade }) {
         </p>
       </div>
       <div>
-        <IconButton color='secondary'>
+        <IconButton color='secondary' onClick={() => removerProduto(id)}>
           <RemoveIcon />
         </IconButton>
         {produtoCarrinho?.unidade || 0}
-        <IconButton onClick={() => adicionarProduto({ id, nome, foto, valor })}>
+        <IconButton
+          color='primary'
+          onClick={() => adicionarProduto({ id, nome, foto, valor })}>
           <AddIcon />
         </IconButton>
       </div>
