@@ -18,13 +18,7 @@ class Tabelas {
       , PRIMARY KEY(id)
     )`;
 
-    this.conexao.query(sql, (erro, resultado) => {
-      if (erro) {
-        console.log(erro);
-      } else {
-        console.log(resultado);
-      }
-    });
+    this.conexao.query(sql);
   }
 }
 
