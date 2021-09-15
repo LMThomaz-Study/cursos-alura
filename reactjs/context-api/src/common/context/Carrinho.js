@@ -6,18 +6,32 @@ CarrinhoContext.displayName = 'Carrinho';
 export const CarrinhoProvider = ({ children }) => {
   const [carrinho, setCarrinho] = useState([]);
   const [quantidadeTotal, setQuantidadeTotal] = useState(0);
+  const [valorTotal, setValorTotal] = useState(0);
 
   return (
     <CarrinhoContext.Provider
-      value={{ carrinho, setCarrinho, quantidadeTotal, setQuantidadeTotal }}>
+      value={{
+        carrinho,
+        setCarrinho,
+        quantidadeTotal,
+        setQuantidadeTotal,
+        valorTotal,
+        setValorTotal,
+      }}>
       {children}
     </CarrinhoContext.Provider>
   );
 };
 
 export const useCarrinhoContext = () => {
-  const { carrinho, setCarrinho, quantidadeTotal, setQuantidadeTotal } =
-    useContext(CarrinhoContext);
+  const {
+    carrinho,
+    setCarrinho,
+    quantidadeTotal,
+    setQuantidadeTotal,
+    setValorTotal,
+    valorTotal,
+  } = useContext(CarrinhoContext);
 
   function mudarQuantidade(id, quantidade) {
     return carrinho.map((item) => {
@@ -56,13 +70,19 @@ export const useCarrinhoContext = () => {
   }
 
   useEffect(() => {
-    const novaQuantidade = carrinho.reduce(
-      (total, item) => total + item.unidade,
-      0,
+    const { novoTotal, novaQuantidade } = carrinho.reduce(
+      (contador, item) => {
+        return {
+          novaQuantidade: contador.novaQuantidade + item.unidade,
+          novoTotal: contador.novoTotal + item.unidade * item.valor,
+        };
+      },
+      { novaQuantidade: 0, novoTotal: 0 },
     );
 
+    setValorTotal(novoTotal);
     setQuantidadeTotal(novaQuantidade);
-  }, [carrinho, setQuantidadeTotal]);
+  }, [carrinho, setQuantidadeTotal, setValorTotal]);
 
   return {
     carrinho,
@@ -70,5 +90,6 @@ export const useCarrinhoContext = () => {
     adicionarProduto,
     removerProduto,
     quantidadeTotal,
+    valorTotal,
   };
 };
