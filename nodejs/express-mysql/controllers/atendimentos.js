@@ -4,4 +4,10 @@ module.exports = (app) => {
       message: 'Você está na rota de atendimentos e está realizando um GET',
     });
   });
+
+  app.post('/atendimentos', (_, res) => {
+    res.json({
+      message: 'Você está na rota de atendimentos e está realizando um POST',
+    });
+  });
 };
