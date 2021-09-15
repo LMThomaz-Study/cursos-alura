@@ -5,8 +5,10 @@ module.exports = (app) => {
     });
   });
 
-  app.post('/atendimentos', (_, res) => {
-    res.json({
+  app.post('/atendimentos', (req, res) => {
+    console.log(req.body);
+
+    return res.json({
       message: 'Você está na rota de atendimentos e está realizando um POST',
     });
   });
