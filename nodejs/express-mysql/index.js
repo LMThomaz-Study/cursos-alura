@@ -1,13 +1,7 @@
-const express = require('express');
+const customExpress = require('./config/customExpress');
 
-const app = express();
+const app = customExpress();
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
-});
-
-app.get('/atendimentos', (req, res) => {
-  res.json({
-    message: 'Você está na rota de atendimentos e está realizando um GET',
-  });
 });
