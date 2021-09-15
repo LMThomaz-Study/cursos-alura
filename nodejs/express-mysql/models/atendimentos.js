@@ -2,8 +2,8 @@ const moment = require('moment');
 const conexao = require('../infra/conexao');
 
 class Atendimento {
-  adicionar(atendimento) {
-    const dataCriacao = moment().format('YYYY-MM-DD HH:MM:SS');
+  adicionar(atendimento, res) {
+    const dataCriacao = moment().format('YYYY-MM-DD HH:mm:SS');
     const data = moment(atendimento.data, 'DD/MM/YYYY').format(
       'YYYY-MM-DD HH:MM:SS',
     );
@@ -13,12 +13,11 @@ class Atendimento {
 
     conexao.query(sql, atendimentoTratado, (erro, resultado) => {
       if (erro) {
-        console.log(erro);
+        res.status(400).json(erro);
         return;
       }
 
-      console.log('Atendimento adicionado com sucesso!');
-      console.log(resultado);
+      res.status(201).json(resultado);
     });
   }
 }
