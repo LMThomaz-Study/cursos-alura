@@ -7,5 +7,7 @@ app.listen(3000, () => {
 });
 
 app.get('/atendimentos', (req, res) => {
-  res.json({ message: 'Você está na rota de atendimentos' });
+  res.json({
+    message: 'Você está na rota de atendimentos e está realizando um GET',
+  });
 });
