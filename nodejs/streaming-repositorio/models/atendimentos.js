@@ -1,3 +1,4 @@
+const axios = require('axios');
 const moment = require('moment');
 const conexao = require('../infra/conexao');
 
@@ -7,7 +8,10 @@ class Atendimento {
     const data = moment(atendimento.data, 'DD/MM/YYYY').format(
       'YYYY-MM-DD HH:MM:SS',
     );
-    const dataEhValida = moment(data).isSameOrAfter(dataCriacao);
+    console.log(data, dataCriacao);
+    const dataEhValida = moment(data.split(' ')[0]).isSameOrAfter(
+      dataCriacao.split(' ')[0],
+    );
     const clienteEhValido = atendimento.cliente.length >= 5;
 
     const validacoes = [
@@ -37,7 +41,7 @@ class Atendimento {
         return;
       }
 
-      res.status(201).json({ ...valores, id: resultado.insertId });
+      res.status(201).json({ ...atendimentoTratado, id: resultado.insertId });
     });
   }
 
@@ -57,13 +61,18 @@ class Atendimento {
   buscar(id, res) {
     const sql = 'SELECT * FROM Atendimentos WHERE id = ?';
 
-    conexao.query(sql, id, (erro, resultado) => {
+    conexao.query(sql, id, async (erro, resultado) => {
       if (erro) {
         res.status(400).json(erro);
         return;
       }
 
       const atendimento = resultado[0];
+      const cpf = atendimento.cliente;
+
+      const { data } = await axios.get(`http://localhost:8082/${cpf}`);
+      atendimento.cliente = data;
+
       return res.status(200).json(atendimento);
     });
   }
