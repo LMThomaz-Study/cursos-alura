@@ -4,32 +4,47 @@ const conexao = require('../infra/database/conexao');
 const repositorio = require('../repositorios/atendimento');
 
 class Atendimento {
-  adicionar(atendimento, res) {
-    const dataCriacao = moment().format('YYYY-MM-DD HH:MM:SS');
-    const data = moment(atendimento.data, 'DD/MM/YYYY').format(
-      'YYYY-MM-DD HH:MM:SS',
-    );
-    console.log(data, dataCriacao);
-    const dataEhValida = moment(data.split(' ')[0]).isSameOrAfter(
-      dataCriacao.split(' ')[0],
-    );
-    const clienteEhValido = atendimento.cliente.length >= 5;
+  constructor() {
+    this.dataEhValida = ({ data, dataCriacao }) =>
+      moment(data.split(' ')[0]).isSameOrAfter(dataCriacao.split(' ')[0]);
+    this.clienteEhValido = (cliente) => cliente.length >= 5;
+    this.valida = (parametros) =>
+      this.validacoes.filter((campo) => {
+        const { nome } = campo;
+        const parametro = parametros[nome];
 
-    const validacoes = [
+        return !campo.valido(parametro);
+      });
+
+    this.validacoes = [
       {
         nome: 'data',
-        valido: dataEhValida,
+        valido: this.dataEhValida,
         mensagem: 'Data deve ser maior ou igual a data atual',
       },
       {
         nome: 'cliente',
-        valido: clienteEhValido,
+        valido: this.clienteEhValido,
         mensagem: 'Cliente deve ter pelo menos 5 caracteres',
       },
     ];
+  }
 
-    const erros = validacoes.filter((campo) => !campo.valido);
+  async adicionar(atendimento) {
+    const dataCriacao = moment().format('YYYY-MM-DD HH:MM:SS');
+    const data = moment(atendimento.data, 'DD/MM/YYYY').format(
+      'YYYY-MM-DD HH:MM:SS',
+    );
+
+    const parametros = {
+      data: { data, dataCriacao },
+      cliente: atendimento.cliente,
+    };
+
+    const erros = this.valida(parametros);
     const existemErros = erros.length > 0;
+
+    console.log(erros);
 
     if (existemErros) return new Promise((resolve, reject) => reject(erros));
 
