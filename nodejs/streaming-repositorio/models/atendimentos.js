@@ -8,6 +8,7 @@ class Atendimento {
     this.dataEhValida = ({ data, dataCriacao }) =>
       moment(data.split(' ')[0]).isSameOrAfter(dataCriacao.split(' ')[0]);
     this.clienteEhValido = (cliente) => cliente.length >= 5;
+
     this.valida = (parametros) =>
       this.validacoes.filter((campo) => {
         const { nome } = campo;
@@ -55,17 +56,8 @@ class Atendimento {
     });
   }
 
-  listar(res) {
-    const sql = 'SELECT * FROM Atendimentos';
-
-    conexao.query(sql, (erro, resultado) => {
-      if (erro) {
-        res.status(400).json(erro);
-        return;
-      }
-
-      return res.status(200).json(resultado);
-    });
+  listar() {
+    return repositorio.listar();
   }
 
   buscar(id, res) {
