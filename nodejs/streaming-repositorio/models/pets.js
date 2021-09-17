@@ -5,7 +5,13 @@ class Pet {
   adicionar(pet, res) {
     const sql = 'INSERT INTO Pets SET ?';
 
-    uploadDeArquivo(pet.imagem, pet.nome, (novoCaminho) => {
+    uploadDeArquivo(pet.imagem, pet.nome, (erro, novoCaminho) => {
+      if (erro) {
+        return res.status(400).json({
+          error: erro,
+        });
+      }
+
       const novoPet = {
         nome: pet.nome,
         imagem: novoCaminho,
