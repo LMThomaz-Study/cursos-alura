@@ -11,10 +11,16 @@ module.exports = (app) => {
     Atendimentos.buscar(Number(id), res);
   });
 
-  app.post('/atendimentos', (req, res) => {
+  app.post('/atendimentos', async (req, res) => {
     const atendimento = req.body;
 
-    Atendimentos.adicionar(atendimento, res);
+    Atendimentos.adicionar(atendimento)
+      .then((atendimentoCadastrado) => {
+        res.status(201).json(atendimentoCadastrado);
+      })
+      .catch((erro) => {
+        res.status(400).json(erro);
+      });
   });
 
   app.patch('/atendimentos/:id', (req, res) => {

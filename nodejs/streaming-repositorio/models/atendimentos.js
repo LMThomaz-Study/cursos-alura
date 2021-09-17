@@ -1,6 +1,7 @@
 const axios = require('axios');
 const moment = require('moment');
-const conexao = require('../infra/conexao');
+const conexao = require('../infra/database/conexao');
+const repositorio = require('../repositorios/atendimento');
 
 class Atendimento {
   adicionar(atendimento, res) {
@@ -30,18 +31,12 @@ class Atendimento {
     const erros = validacoes.filter((campo) => !campo.valido);
     const existemErros = erros.length > 0;
 
-    if (existemErros) return res.status(400).json(erros);
+    if (existemErros) return new Promise((resolve, reject) => reject(erros));
 
     const atendimentoTratado = { dataCriacao, ...atendimento, data };
-    const sql = 'INSERT INTO Atendimentos SET ?';
 
-    conexao.query(sql, atendimentoTratado, (erro, resultado) => {
-      if (erro) {
-        res.status(400).json(erro);
-        return;
-      }
-
-      res.status(201).json({ ...atendimentoTratado, id: resultado.insertId });
+    return repositorio.adicionar(atendimentoTratado).then((resultado) => {
+      return { ...atendimentoTratado, id: resultado.insertId };
     });
   }
 
