@@ -1,8 +1,7 @@
 class Conta:
   def __init__(self, numero, titular, saldo, limite):
-    print('Conta criada - {}'.format(self))
     self.__numero = numero
-    self.__titular = titular
+    self.__titular = titular 
     self.__saldo = saldo
     self.__limite = limite
     
@@ -14,11 +13,16 @@ class Conta:
     
   def sacar(self, valor):
     self.__saldo -= valor
+    
+  def transferir(self, valor, destino):
+    self.sacar(valor)
+    destino.depositar(valor)
+    pass
 
 
 conta = Conta(123, 'Pedro', 100.0, 1000.0)
+conta2 = Conta(456, 'Johns', 100.0, 1000.0)
 
-conta.depositar(100.0)
+conta.transferir(10.0, conta2)
 conta.extrato()
-conta.sacar(50.0)
-conta.extrato()
+conta2.extrato()
