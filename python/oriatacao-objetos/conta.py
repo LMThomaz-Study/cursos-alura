@@ -19,16 +19,21 @@ class Conta:
         destino.depositar(valor)
         pass
 
-    def get_saldo(self):
+    @property
+    def saldo(self):
         return self.__saldo
 
-    def get_titular(self):
+    @property
+    def titular(self):
         return self.__titular
 
-    def get_limite(self):
+    @property
+    def limite(self):
         return self.__limite
 
-    def set_limite(self, limite):
+    @limite.setter
+    def limite(self, limite):
+        print("Novo limite de {}".format(limite))
         self.__limite = limite
 
 
@@ -38,3 +43,4 @@ conta2 = Conta(456, "Johns", 100.0, 1000.0)
 conta.transferir(10.0, conta2)
 conta.extrato()
 conta2.extrato()
+conta.limite = 500.0
