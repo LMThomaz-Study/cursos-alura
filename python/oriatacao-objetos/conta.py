@@ -8,3 +8,4 @@ class Conta:
 
 
 conta = Conta(123, 'Pedro', 100.0, 1000.0)
+print(conta.titular)
