@@ -19,8 +19,17 @@ class Conta:
         destino.depositar(valor)
         pass
 
-    def eh_inadiplente(self, cliente):
-        pass
+    def get_saldo(self):
+        return self.__saldo
+
+    def get_titular(self):
+        return self.__titular
+
+    def get_limite(self):
+        return self.__limite
+
+    def set_limite(self, limite):
+        self.__limite = limite
 
 
 conta = Conta(123, "Pedro", 100.0, 1000.0)
