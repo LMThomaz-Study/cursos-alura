@@ -40,8 +40,6 @@ print(
     f" - {vingadores.duracao}"
     f": {vingadores.likes}"
 )
-
-
 atlanta = Serie("atlanta", 2018, 2)
 atlanta.dar_like()
 atlanta.dar_like()
@@ -51,3 +49,12 @@ print(
     f" - {atlanta.temporadas}"
     f": {atlanta.likes}"
 )
+
+filmes_e_series = [vingadores, atlanta]
+
+for programa in filmes_e_series:
+    detalhes = programa.duracao if hasattr(programa, "duracao") else programa.temporadas
+
+    print(
+        f"{programa.nome}" f" - {programa.ano}" f" - {detalhes}" f": {programa.likes}"
+    )
