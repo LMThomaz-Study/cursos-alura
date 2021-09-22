@@ -16,7 +16,7 @@ jogo3 = Jogo("Mortal Kombat", "Luta", "SNES")
 lista_jogos = [jogo1, jogo2, jogo3]
 
 
-@app.route("/inicio")
+@app.route("/")
 def hello():
 
     return render_template("lista.html", titulo="Jogos", jogos=lista_jogos)
@@ -27,7 +27,7 @@ def novo():
     return render_template("novo.html", titulo="Novo Jogo")
 
 
-@app.route("/criar")
+@app.route("/criar", methods=["POST"])
 def criar():
     nome = request.form["nome"]
     categoria = request.form["categoria"]
@@ -37,4 +37,4 @@ def criar():
     return render_template("lista.html", titulo="Jogos", jogos=lista_jogos)
 
 
-app.run()
+app.run(debug=True)
