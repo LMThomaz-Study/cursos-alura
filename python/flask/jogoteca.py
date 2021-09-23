@@ -19,12 +19,13 @@ lista_jogos = [jogo1, jogo2, jogo3]
 
 @app.route("/")
 def hello():
-
     return render_template("lista.html", titulo="Jogos", jogos=lista_jogos)
 
 
 @app.route("/novo")
 def novo():
+    if "usuario_logado" not in session or session["usuario_logado"] == None:
+        return redirect("/login")
     return render_template("novo.html", titulo="Novo Jogo")
 
 
