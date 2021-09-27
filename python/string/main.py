@@ -4,6 +4,7 @@ url = ""
 # Sanitização da URL
 url = url.replace(" ", "")
 
+
 # Validação da URL
 if url == "":
     raise ValueError("URL não informada")
