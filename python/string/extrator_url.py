@@ -49,10 +49,18 @@ class ExtratorURL:
     def __len__(self):
         return len(self.url)
 
+    def __str__(self):
+        return f"{self.url}\nParâmetros: {self.get_url_parametros()}\nURL Base: {self.get_url_base()}"
 
-extrator_url = ExtratorURL(
-    "www.bytebank.com/cambio?quantidade=100&moedaOrigem=real&moedaDestino=dolar")
 
-print(f"O tamanho da URL: {len(extrator_url)}")
-valor_quantidade = extrator_url.get_valor_parametro("quantidade")
-print(valor_quantidade)
+url = "www.bytebank.com/cambio?quantidade=100&moedaOrigem=real&moedaDestino=dolar"
+extrator_url = ExtratorURL(url)
+extrator_url2 = ExtratorURL(url)
+
+print(
+    f"Extrator URL 1 é igual ao Extrator URL 2? {extrator_url2 == extrator_url}")
+
+# print(f"O tamanho da URL: {len(extrator_url)}")
+# print(f"URL sendo analisada: {extrator_url}")
+# valor_quantidade = extrator_url.get_valor_parametro("quantidade")
+# print(valor_quantidade)
